@@ -242,6 +242,7 @@ type Runner struct {
 	UseMMap   *bool `json:"use_mmap,omitempty"`
 	UseMLock  bool  `json:"use_mlock,omitempty"`
 	NumThread int   `json:"num_thread,omitempty"`
+    TensorSplit string   `json:"tensor_split,omitempty"` 
 }
 
 // EmbedRequest is the request passed to [Client.Embed].
@@ -616,6 +617,7 @@ func DefaultOptions() Options {
 			F16KV:     true,
 			UseMLock:  false,
 			UseMMap:   nil,
+            TensorSplit: "",
 		},
 	}
 }
