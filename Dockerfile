@@ -16,7 +16,7 @@ FROM --platform=linux/amd64 nvidia/cuda:$CUDA_VERSION_12-devel-centos7 AS cuda-1
 ARG CMAKE_VERSION
 COPY ./scripts/rh_linux_deps.sh /
 RUN CMAKE_VERSION=${CMAKE_VERSION} sh /rh_linux_deps.sh
-ENV PATH /opt/rh/devtoolset-10/root/usr/bin:$PATH
+ENV PATH=/opt/rh/devtoolset-10/root/usr/bin:$PATH
 COPY --from=llm-code / /go/src/github.com/ollama/ollama/
 WORKDIR /go/src/github.com/ollama/ollama/llm/generate
 ARG CGO_CFLAGS
@@ -35,7 +35,7 @@ ARG CMAKE_VERSION
 ARG GOLANG_VERSION
 COPY ./scripts/rh_linux_deps.sh /
 RUN CMAKE_VERSION=${CMAKE_VERSION} GOLANG_VERSION=${GOLANG_VERSION} sh /rh_linux_deps.sh
-ENV PATH /opt/rh/devtoolset-10/root/usr/bin:$PATH
+ENV PATH=/opt/rh/devtoolset-10/root/usr/bin:$PATH
 COPY --from=llm-code / /go/src/github.com/ollama/ollama/
 ARG OLLAMA_CUSTOM_CPU_DEFS
 ARG CGO_CFLAGS
@@ -57,7 +57,7 @@ RUN --mount=type=cache,target=/root/.ccache \
 
 # Intermediate stage used for ./scripts/build_linux.sh
 FROM --platform=linux/amd64 cpu-build-amd64 AS build-amd64
-ENV CGO_ENABLED 1
+ENV CGO_ENABLED=1
 WORKDIR /go/src/github.com/ollama/ollama
 COPY . .
 COPY --from=static-build-amd64 /go/src/github.com/ollama/ollama/llm/build/linux/ llm/build/linux/
@@ -85,7 +85,7 @@ COPY --from=build-amd64 /go/src/github.com/ollama/ollama/dist/linux-amd64/bin/ /
 
 FROM runtime-$TARGETARCH
 EXPOSE 11434
-ENV OLLAMA_HOST 0.0.0.0
+ENV OLLAMA_HOST=0.0.0.0
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
