@@ -56,7 +56,7 @@ COMMON_CMAKE_DEFS="-DCMAKE_SKIP_RPATH=on -DBUILD_SHARED_LIBS=on -DCMAKE_POSITION
 source $(dirname $0)/gen_common.sh
 init_vars
 git_module_setup
-apply_patches
+# apply_patches
 
 init_vars
 if [ -z "${OLLAMA_SKIP_STATIC_GENERATE}" -o "${OLLAMA_CPU_TARGET}" = "static" ]; then
