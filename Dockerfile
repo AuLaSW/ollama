@@ -1,10 +1,7 @@
 ARG GOLANG_VERSION=1.22.5
 ARG CMAKE_VERSION=3.22.1
-ARG CUDA_VERSION_11=11.3.1
-ARG CUDA_V11_ARCHITECTURES="50;52;53;60;61;62;70;72;75;80;86"
 ARG CUDA_VERSION_12=12.4.0
 ARG CUDA_V12_ARCHITECTURES="60;61;62;70;72;75;80;86;87;89;90;90a"
-ARG ROCM_VERSION=6.1.2
 
 # Copy the minimal context we need to run the generate scripts
 FROM scratch AS llm-code
@@ -63,8 +60,6 @@ COPY . .
 COPY --from=static-build-amd64 /go/src/github.com/ollama/ollama/llm/build/linux/ llm/build/linux/
 COPY --from=cpu_avx-build-amd64 /go/src/github.com/ollama/ollama/llm/build/linux/ llm/build/linux/
 COPY --from=cpu_avx2-build-amd64 /go/src/github.com/ollama/ollama/llm/build/linux/ llm/build/linux/
-COPY --from=cuda-11-build-amd64 /go/src/github.com/ollama/ollama/dist/ dist/
-COPY --from=cuda-11-build-amd64 /go/src/github.com/ollama/ollama/llm/build/linux/ llm/build/linux/
 COPY --from=cuda-12-build-amd64 /go/src/github.com/ollama/ollama/dist/ dist/
 COPY --from=cuda-12-build-amd64 /go/src/github.com/ollama/ollama/llm/build/linux/ llm/build/linux/
 ARG GOFLAGS
